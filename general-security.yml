@@ -1,0 +1,133 @@
+- script: |
+    mkdir $(Agent.TempDirectory)/tfsec -m 777
+    docker pull aquasec/tfsec:latest
+    docker run --rm -v "$(Build.SourcesDirectory):/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src 
+    sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif
+  displayName: Run TF-Sec
+  continueOnError: false
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)/tfsec'
+    contents: "*.sarif" 
+    targetFolder: $(Agent.TempDirectory)/sast-results/tfsec/
+
+- task: DeleteFiles@1
+  displayName: 'Remove unneeded files'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "$(Agent.TempDirectory)/tfsec/*.sarif" 
+
+    
+- script: |
+    mkdir $(Agent.TempDirectory)/trivy -m 777
+    docker pull aquasec/trivy:latest
+    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image -f sarif -o /report/trivy.sarif webgoat/webgoat-8.0
+    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
+  displayName: 'Download and install Trivy'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)/trivy'
+    contents: "*.sarif" 
+    targetFolder: $(Agent.TempDirectory)/sast-results/trivy/
+
+- task: DeleteFiles@1
+  displayName: 'Remove unneeded files'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "$(Agent.TempDirectory)/trivy/*.sarif" 
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Unit Tests'
+  inputs:
+    command: 'test'
+    projects: '**/*.UnitTests.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
+    testRunTitle: 'Unit Tests'
+
+# Run Gitleaks on Source Repository
+- task: Gitleaks@2
+  displayName: Gitleaks - All Mode
+  inputs:
+    scanlocation: '$(Build.SourcesDirectory)'
+    configtype: 'predefined'
+    scanmode: 'all'
+    predefinedconfigfile: 'GitleaksUdmCombo.toml'
+    redact: true
+    taskfail: false
+    reportformat: 'sarif'
+    uploadresults: false
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "*.sarif" 
+    targetFolder: $(Agent.TempDirectory)/sast-results/Gitleaks-all-mode/
+
+- task: DeleteFiles@1
+  displayName: 'Remove unneeded files'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "$(Agent.TempDirectory)/*.sarif" 
+
+- task: Gitleaks@2
+  displayName: Gitleaks - Changes/Prevalidation Mode
+  inputs:
+    ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+      scanmode: 'prevalidation'
+    ${{ else }}:
+      scanmode: 'changes'
+    scanlocation: '$(Build.SourcesDirectory)'
+    configtype: 'predefined'
+    predefinedconfigfile: 'GitleaksUdmCombo.toml'
+    redact: true
+    taskfail: false
+    uploadresults: false
+    reportformat: 'sarif'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "*.sarif" 
+    targetFolder: $(Agent.TempDirectory)/sast-results/Gitleaks-Changes/
+
+- task: DeleteFiles@1
+  displayName: 'Remove unneeded files'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "$(Agent.TempDirectory)/*.sarif" 
+
+
+- task: OWASPDependencyCheck@0
+  inputs:
+    outputDirectory: '$(Agent.TempDirectory)/dependency-scan-results'
+    scanDirectory: '$(Build.SourcesDirectory)'
+    outputFormat: 'ALL'
+    useSonarQubeIntegration: false
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)/dependency-scan-results'
+    contents: "*.sarif" 
+    targetFolder: $(Agent.TempDirectory)/sast-results/dependency-scan-results/
+
+- task: DeleteFiles@1
+  displayName: 'Remove unneeded files'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "$(Agent.TempDirectory)/*.sarif" 
+
+- script: |
+    mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
+    dotnet tool install --global security-scan
+    security-scan $(Build.SourcesDirectory)/WebGoatCore.sln  --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
+  displayName: 'Install and run SCS'
+  continueOnError: false
+
+- task: PublishBuildArtifacts@1
+  displayName: "Publish analysis logs"
+  inputs:
+    PathtoPublish: "$(Agent.TempDirectory)/sast-results"
+    ArtifactName: "CodeAnalysisLogs"
+    publishLocation: "Container"
