@@ -1,0 +1,6 @@
+parameters:
+- name: scanContainer # if true: scans image for vulnerabilities and pubishes a sarif file
+  type: boolean
+  default: false
+
+  
