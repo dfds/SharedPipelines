@@ -1,0 +1,8 @@
+- script: |
+    mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
+    dotnet tool install --global security-scan
+    security-scan $(Build.SourcesDirectory)/WebGoatCore.sln  --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
+  displayName: 'Install and run SCS'
+  continueOnError: false
+
+  
