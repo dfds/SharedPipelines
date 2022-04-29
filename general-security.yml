@@ -1,4 +1,7 @@
-
+parameters:
+- name: sourceDirectory
+  type: string
+  default: '$(Build.SourcesDirectory)'
 
 - template: security-container-scan.yml@SharedPipelines
   parameters:
