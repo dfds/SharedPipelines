@@ -4,6 +4,10 @@ jobs:
   parameters:
     fullImageUri: $(Parameter.fullImageUri)
 
+- template: secuirty-iac-scan.yml
+  parameters:
+    sourceDirectory: $(Parameter.sourceDirectory)
+    
 # Run Gitleaks on Source Repository
 - task: Gitleaks@2
   displayName: Gitleaks - All Mode
