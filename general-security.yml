@@ -1,35 +1,8 @@
 jobs:
-- script: |
-    mkdir $(Agent.TempDirectory)/tfsec -m 777
-    docker pull aquasec/tfsec:latest
-    docker run --rm -v "$(Build.SourcesDirectory):/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src 
-    sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif
-  displayName: Run TF-Sec
-  continueOnError: false
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)/tfsec'
-    contents: "*.sarif" 
-    targetFolder: $(Agent.TempDirectory)/sast-results/tfsec/
-
-- task: DeleteFiles@1
-  displayName: 'Remove unneeded files'
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    contents: "$(Agent.TempDirectory)/tfsec/*.sarif" 
 
 - template: security-container-scan.yml@SharedPipeline
   parameters:
     fullImageUri: $(Parameter.fullImageUri)
-    
-- task: DotNetCoreCLI@2
-  displayName: 'Unit Tests'
-  inputs:
-    command: 'test'
-    projects: '**/*.UnitTests.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-    testRunTitle: 'Unit Tests'
 
 # Run Gitleaks on Source Repository
 - task: Gitleaks@2
