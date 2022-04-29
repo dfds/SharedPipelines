@@ -1,28 +1,24 @@
 jobs:
-
-- template: security-container-scan.yml@SharedPipeline
+- template: security-container-scan.yml@SharedPipelines
   parameters:
     fullImageUri: $(Parameter.fullImageUri)
 
-- template: security-iac-scan.yml@SharedPipeline
+- template: security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: $(Parameter.sourceDirectory)
 
-- template: security-secret-scan.yml@SharedPipeline
+- template: security-secret-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: $(Parameter.sourceDirectory)
     
-- template: security-dependancy-scan.yml@SharedPipeline
+- template: security-dependancy-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: $(Parameter.sourceDirectory)
 
-- script: |
-    mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
-    dotnet tool install --global security-scan
-    security-scan $(Build.SourcesDirectory)/WebGoatCore.sln  --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
-  displayName: 'Install and run SCS'
-  continueOnError: false
+ - template: security-dotnet-sast-scan.yml@SharedPipelines
+  parameters:
+    sourceDirectory: $(Parameter.sourceDirectory)   
 
-- template: security-publish-artifacts.yml@SharedPipeline
+- template: security-publish-artifacts.yml@SharedPipelines
   parameters:
     sourceDirectory: $(Parameter.sourceDirectory)
