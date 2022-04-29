@@ -1,3 +1,4 @@
+jobs:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
@@ -18,25 +19,9 @@
     SourceFolder: '$(Agent.TempDirectory)'
     contents: "$(Agent.TempDirectory)/tfsec/*.sarif" 
 
-    
-- script: |
-    mkdir $(Agent.TempDirectory)/trivy -m 777
-    docker pull aquasec/trivy:latest
-    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image -f sarif -o /report/trivy.sarif webgoat/webgoat-8.0
-    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
-  displayName: 'Download and install Trivy'
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)/trivy'
-    contents: "*.sarif" 
-    targetFolder: $(Agent.TempDirectory)/sast-results/trivy/
-
-- task: DeleteFiles@1
-  displayName: 'Remove unneeded files'
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    contents: "$(Agent.TempDirectory)/trivy/*.sarif" 
+- template: security-container-scan.yml@SharedPipeline
+  parameters:
+    fullImageUri: $(Parameter.fullImageUri)
     
 - task: DotNetCoreCLI@2
   displayName: 'Unit Tests'
