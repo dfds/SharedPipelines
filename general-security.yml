@@ -2,6 +2,8 @@ parameters:
 - name: sourceDirectory
   type: string
   default: '$(Build.SourcesDirectory)'
+- name: fullImageUri
+  type: string
 
 - template: security-container-scan.yml@SharedPipelines
   parameters:
