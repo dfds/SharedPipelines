@@ -1,6 +1,7 @@
 parameters:
 - name: sourceDirectory
   type: string
+  default: '$(Build.SourcesDirectory)'
 
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
