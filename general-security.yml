@@ -2,24 +2,24 @@
 
 - template: security-container-scan.yml@SharedPipelines
   parameters:
-    fullImageUri: $(Parameter.fullImageUri)
+    fullImageUri: $(parameters.fullImageUri)
 
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(Parameter.sourceDirectory)
+    sourceDirectory: $(parameters.sourceDirectory)
 
 - template: security-secret-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(Parameter.sourceDirectory)
+    sourceDirectory: $(parameters.sourceDirectory)
     
 - template: security-dependancy-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(Parameter.sourceDirectory)
+    sourceDirectory: $(parameters.sourceDirectory)
 
  - template: security-dotnet-sast-scan.yml@SharedPipelines
   parameters:
-    projectSlnDirectory: $(Parameter.projectSlnDirectory)   
+    projectSlnDirectory: $(parameters.projectSlnDirectory)   
 
 - template: security-publish-artifacts.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(Parameter.sourceDirectory)
+    sourceDirectory: $(parameters.sourceDirectory)
