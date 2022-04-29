@@ -8,30 +8,13 @@ jobs:
   parameters:
     sourceDirectory: $(Parameter.sourceDirectory)
 
-
 - template: secuirty-secret-scan.yml@SharedPipeline
   parameters:
     sourceDirectory: $(Parameter.sourceDirectory)
     
-
-- task: OWASPDependencyCheck@0
-  inputs:
-    outputDirectory: '$(Agent.TempDirectory)/dependency-scan-results'
-    scanDirectory: '$(Build.SourcesDirectory)'
-    outputFormat: 'ALL'
-    useSonarQubeIntegration: false
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)/dependency-scan-results'
-    contents: "*.sarif" 
-    targetFolder: $(Agent.TempDirectory)/sast-results/dependency-scan-results/
-
-- task: DeleteFiles@1
-  displayName: 'Remove unneeded files'
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    contents: "$(Agent.TempDirectory)/*.sarif" 
+- template: secuirty-dependancy-scan.yml@SharedPipeline
+  parameters:
+    sourceDirectory: $(Parameter.sourceDirectory)
 
 - script: |
     mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
