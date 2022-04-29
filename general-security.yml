@@ -17,7 +17,7 @@ jobs:
 
  - template: security-dotnet-sast-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(Parameter.sourceDirectory)   
+    projectSlnDirectory: $(Parameter.projectSlnDirectory)   
 
 - template: security-publish-artifacts.yml@SharedPipelines
   parameters:
