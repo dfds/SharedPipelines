@@ -1,10 +1,11 @@
-Parameters:
-- name 
+parameters:
+- name: sourceDirectory
+  type: string
 
 - task: OWASPDependencyCheck@0
   inputs:
     outputDirectory: '$(Agent.TempDirectory)/dependency-scan-results'
-    scanDirectory: '$(parameter.SourcesDirectory)'
+    scanDirectory: '$(parameters.SourcesDirectory)'
     outputFormat: 'ALL'
     useSonarQubeIntegration: false
 
