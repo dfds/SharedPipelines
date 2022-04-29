@@ -1,6 +1,7 @@
 parameters:
 - name: sourceDirectory
   type: string
+  default: '$(Build.SourcesDirectory)'
 
 - task: OWASPDependencyCheck@0
   inputs:
