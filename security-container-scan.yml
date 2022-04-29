@@ -1,11 +1,11 @@
 parameters:
-- name: image
+- name: fullImageUri
   type: string
 
 - script: |
     mkdir $(Agent.TempDirectory)/trivy -m 777
     docker pull aquasec/trivy:latest
-    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image -f sarif -o /report/trivy.sarif ${{ parameters.awsId }}.dkr.ecr.eu-central-1.amazonaws.com/${{ parameters.ecrNamespace }}/${{ parameters.serviceImageName }}:$(Build.BuildNumber)
+    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image -f sarif -o /report/trivy.sarif $(fullImageUri)
     sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
   displayName: 'Scan image'
 
