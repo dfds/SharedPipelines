@@ -1,6 +1,6 @@
 parameters:
-  - name: sourceDirectory
-    type: string
+- name: sourceDirectory
+  type: string
 
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
