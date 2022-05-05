@@ -7,6 +7,7 @@ parameters:
 - name: projectSlnDirectory1
   type: string
 
+steps:
 - template: security-container-scan.yml@SharedPipelines
   parameters:
     fullImageUri: $(parameters.fullImageUri)
