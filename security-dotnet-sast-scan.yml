@@ -1,4 +1,4 @@
-paramters:
+parameters:
 - name: projectSlnDirectory
 - type: string
 
