@@ -28,6 +28,6 @@ steps:
   parameters:
     projectSlnDirectory: $(parameters.projectSlnDirectory)   
 
-- template: security-publish-artifacts.yml@SharedPipelines
+- template: secuirty-publish-artifacts.yml@SharedPipelines
   parameters:
     sourceDirectory: $(parameters.sourceDirectory)
