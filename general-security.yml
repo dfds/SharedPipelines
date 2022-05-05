@@ -1,17 +1,10 @@
-resources:
-  repositories:
-    - repository: SharedPipelines
-      type: git
-      name: CloudEngineering/SharedPipelines
-     # ref: refs/tags/v0.0.1 # optional ref to pin to
-
 parameters:
 - name: sourceDirectory
   type: string
   default: '$(Build.SourcesDirectory)'
 - name: fullImageUri
   type: string
-- name: projectSlnDirectory1
+- name: projectSlnDirectory
   type: string
 
 steps:
@@ -33,7 +26,7 @@ steps:
 
  - template: security-dotnet-sast-scan.yml@SharedPipelines
   parameters:
-    projectSlnDirectory: $(parameters.projectSlnDirectory1)   
+    projectSlnDirectory: $(parameters.projectSlnDirectory)   
 
 - template: security-publish-artifacts.yml@SharedPipelines
   parameters:
