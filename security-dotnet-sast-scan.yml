@@ -2,6 +2,7 @@ Paramters:
 - name: projectSlnDirectory
 - type: string
 
+steps:
 - script: |
     mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
     dotnet tool install --global security-scan
