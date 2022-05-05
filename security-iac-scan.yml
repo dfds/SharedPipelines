@@ -3,6 +3,7 @@ parameters:
   type: string
   default: '$(Build.SourcesDirectory)'
 
+steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
