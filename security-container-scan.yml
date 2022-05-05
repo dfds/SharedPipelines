@@ -1,7 +1,8 @@
 parameters:
 - name: fullImageUri
   type: string
-
+  
+steps:
 - script: |
     mkdir $(Agent.TempDirectory)/trivy -m 777
     docker pull aquasec/trivy:latest
