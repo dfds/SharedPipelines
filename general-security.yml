@@ -24,7 +24,7 @@ steps:
   parameters:
     sourceDirectory: $(parameters.sourceDirectory)
 
- - template: security-dotnet-sast-scan.yml@SharedPipelines
+- template: security-dotnet-sast-scan.yml@SharedPipelines
   parameters:
     projectSlnDirectory: $(parameters.projectSlnDirectory)   
 
