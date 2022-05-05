@@ -1,3 +1,4 @@
+steps:
 - task: PublishBuildArtifacts@1
   displayName: "Publish analysis logs"
   inputs:
