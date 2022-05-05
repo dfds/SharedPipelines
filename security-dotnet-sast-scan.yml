@@ -1,6 +1,6 @@
 parameters:
 - name: projectSlnDirectory
-- type: string
+  type: string
 
 steps:
 - script: |
