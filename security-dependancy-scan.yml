@@ -3,6 +3,7 @@ parameters:
   type: string
   default: '$(Build.SourcesDirectory)'
 
+steps:
 - task: OWASPDependencyCheck@0
   inputs:
     outputDirectory: '$(Agent.TempDirectory)/dependency-scan-results'
