@@ -1,3 +1,10 @@
+resources:
+  repositories:
+    - repository: SharedPipelines
+      type: git
+      name: CloudEngineering/SharedPipelines
+     # ref: refs/tags/v0.0.1 # optional ref to pin to
+
 parameters:
 - name: sourceDirectory
   type: string
