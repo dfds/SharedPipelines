@@ -6,6 +6,6 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
     dotnet tool install --global security-scan
-    security-scan $(paramters.projectSlnDirectory) --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
+    security-scan ${{ paramters.projectSlnDirectory }} --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
   displayName: 'Install and run SAST scan'
   continueOnError: false
