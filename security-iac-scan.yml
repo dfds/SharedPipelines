@@ -7,6 +7,8 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
+    echo ${{ parameters.sourceDirectory }}
+    echo ${{ parameters.sourceDirectory }} + ":/src"
     sourceDir="${{ parameters.sourceDirectory }}:/src"
     echo "$sourceDir"
     docker run --rm -v "$sourceDir" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
