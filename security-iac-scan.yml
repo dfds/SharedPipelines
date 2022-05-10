@@ -7,9 +7,9 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
-    $sourceDir = ${{ parameters.sourceDirectory }} + ":/src"
-    echo $sourceDir
-    docker run --rm -v $sourceDir -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
+    sourceDir=${{ parameters.sourceDirectory }} + ":/src"
+    echo "$sourceDir"
+    docker run --rm -v "$sourceDir" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
     sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif
   displayName: Run TF-Sec
   continueOnError: false
