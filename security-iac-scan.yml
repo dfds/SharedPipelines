@@ -1,5 +1,5 @@
 parameters:
-- name: sourceDirectory
+- name: sourceDirectory21
   type: string
   default: $(Build.SourcesDirectory)
 
@@ -7,9 +7,9 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
-    echo ${{ parameters.sourceDirectory }}
-    echo ${{ parameters.sourceDirectory }} + ":/src"
-    sourceDir="${{ parameters.sourceDirectory }}:/src"
+    echo ${{ parameters.sourceDirectory21 }}
+    echo ${{ parameters.sourceDirectory21 }} + ":/src"
+    sourceDir="${{ parameters.sourceDirectory21 }}:/src"
     echo "$sourceDir"
     docker run --rm -v "$sourceDir" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
     sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif
