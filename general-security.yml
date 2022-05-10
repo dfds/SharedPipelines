@@ -8,13 +8,13 @@ parameters:
   type: string
 
 steps:
-- template: security-container-scan.yml@SharedPipelines
-  parameters:
-    fullImageUri: $(parameters.fullImageUri)
-
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: $(parameters.sourceDirectory)
+
+- template: security-container-scan.yml@SharedPipelines
+  parameters:
+    fullImageUri: $(parameters.fullImageUri)
 
 - template: security-secret-scan.yml@SharedPipelines
   parameters:
