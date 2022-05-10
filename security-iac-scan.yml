@@ -7,7 +7,7 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
-    $sourceDir = concact(${{ parameters.sourceDirectory }}, ":/src")
+    $sourceDir =  [System.String]::Concat("${{ parameters.sourceDirectory }}", ":/src")
     echo $sourceDir
     echo 'docker run --rm -v $sourceDir -v "$sourceDir/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src'
     docker run --rm -v $sourceDir -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
