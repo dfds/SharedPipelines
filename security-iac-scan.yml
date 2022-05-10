@@ -7,6 +7,7 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
+    echo ${{ parameters['sourceDirectory21'] }} 
     echo ${{ parameters.sourceDirectory21 }}
     echo ${{ parameters.sourceDirectory21 }} + ":/src"
     sourceDir="${{ parameters.sourceDirectory21 }}:/src"
