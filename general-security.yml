@@ -10,7 +10,7 @@ parameters:
 steps:
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(parameters.sourceDirectory)
+    sourceDirectory21: $(parameters.sourceDirectory)
 
 - template: security-container-scan.yml@SharedPipelines
   parameters:
