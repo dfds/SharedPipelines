@@ -4,9 +4,11 @@ parameters:
   default: $(Build.SourcesDirectory)
 
 steps:
+- script: echo building $(Build.BuildNumber) with ${{ parameters.string }}
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
+    ${{ parameters.image }}
     echo ${{ parameter['sourceDirectory21'] }} 
     echo ${{ parameter.sourceDirectory21 }}
     echo ${{ parameter.sourceDirectory21 }} + ":/src"
