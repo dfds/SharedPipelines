@@ -1,7 +1,7 @@
 parameters:
 - name: sourceDirectory
   type: string
-  default: '$(Build.SourcesDirectory)'
+  default: $(Build.SourcesDirectory)
 - name: fullImageUri
   type: string
 - name: projectSlnDirectory
