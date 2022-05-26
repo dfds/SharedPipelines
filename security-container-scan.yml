@@ -16,11 +16,9 @@ steps:
     SourceFolder: '$(Agent.TempDirectory)/trivy'
     contents: "*.sarif" 
     targetFolder: $(Agent.TempDirectory)/sast-results/trivy/
-  Display: false
 
 - task: DeleteFiles@1
   displayName: 'Remove unneeded files'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     contents: "$(Agent.TempDirectory)/trivy/*.sarif"
-  Display: false
