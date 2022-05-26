@@ -10,24 +10,24 @@ parameters:
 steps:
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory21: $(parameters.sourceDirectory)
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
 
 - template: security-container-scan.yml@SharedPipelines
   parameters:
-    fullImageUri: $(parameters.fullImageUri)
+    fullImageUri: '${{ parameters.fullImageUri }}'
 
 - template: security-secret-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(parameters.sourceDirectory)
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
     
 - template: security-dependancy-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(parameters.sourceDirectory)
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
 
 - template: security-dotnet-sast-scan.yml@SharedPipelines
   parameters:
-    projectSlnDirectory: $(parameters.projectSlnDirectory)   
+    projectSlnDirectory: '${{ parameters.projectSlnDirectory }}'   
 
 - template: secuirty-publish-artifacts.yml@SharedPipelines
   parameters:
-    sourceDirectory: $(parameters.sourceDirectory)
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
