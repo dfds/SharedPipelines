@@ -1,0 +1,9 @@
+parameters:
+- name: sourceDirectory
+  type: string
+  default: $(Build.SourcesDirectory)
+  
+steps:
+- template: security-iac-scan.yml@SharedPipelines
+  parameters:
+    sourceDirectory21: $(parameters.sourceDirectory)
