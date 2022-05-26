@@ -9,8 +9,6 @@ parameters:
 
 steps:
 - template: owasp-zap/create-xml-to-xslt-file.yml@SharedPipelines
-  parameters:
-    fullImageUri: '${{ parameters.fullImageUri }}'
 
 - template: security-dast-scan.yml@SharedPipelines
   parameters:
