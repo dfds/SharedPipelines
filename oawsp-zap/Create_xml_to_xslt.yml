@@ -1,4 +1,15 @@
-cat <<EOT >> greetings.txt
-line 1
-line 2
-EOT
+
+
+
+parameters:
+- name: fullImageUri
+  type: string
+  
+steps:
+- script: |
+    cat <<EOT >> greetings.txt
+    line 1
+    line 2
+    EOT
+  displayName: 'Scan image'
+  continueOnError: false
