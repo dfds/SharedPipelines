@@ -4,7 +4,8 @@ parameters:
   default: $(Build.SourcesDirectory)
 
 steps:
-- script: echo building $(Build.SourcesDirectory) with ${{ parameters.sourceDirectory }}
+- script: echo "building $(Build.SourcesDirectory) with '${{ parameters.serviceImageName }}'"
+- bash: echo "building $(Build.SourcesDirectory) with '${{ parameters.serviceImageName }}'"
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory21: $(parameters.sourceDirectory)
+    sourceDirectory21: '${{ parameters.serviceImageName }}'
