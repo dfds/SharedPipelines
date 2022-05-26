@@ -1,20 +1,14 @@
 parameters:
-- name: sourceDirectory21
+- name: sourceDirectory
   type: string
   default: $(Build.SourcesDirectory)
 
 steps:
-- script: echo building $(Build.BuildNumber) with ${{ parameters.sourceDirectory21 }}
+- script: echo "building $(Build.BuildNumber) with '${{ parameters.sourceDirectory }}'"
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
-    ${{ parameters.sourceDirectory21 }}
-    echo ${{ parameters['sourceDirectory21'] }} 
-    echo ${{ parameters.sourceDirectory21 }}
-    echo ${{ parameters.sourceDirectory21 }} + ":/src"
-    sourceDir="${{ parameters.sourceDirectory21 }}:/src"
-    echo "$sourceDir"
-    docker run --rm -v "$sourceDir" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
+    docker run --rm -v "${{ parameters.sourceDirectory }}" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
     sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif
   displayName: Run TF-Sec
   continueOnError: false
