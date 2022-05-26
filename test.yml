@@ -9,3 +9,7 @@ steps:
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
+
+- template: secuirty-publish-artifacts.yml@SharedPipelines
+  parameters:
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
