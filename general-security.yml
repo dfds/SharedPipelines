@@ -8,6 +8,10 @@ parameters:
   type: string
 
 steps:
+- template: security-dast-scan.yml@SharedPipelines
+  parameters:
+    fullImageUri: '${{ parameters.fullImageUri }}'
+
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
