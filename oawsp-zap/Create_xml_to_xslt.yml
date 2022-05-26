@@ -1,0 +1,4 @@
+cat <<EOT >> greetings.txt
+line 1
+line 2
+EOT
