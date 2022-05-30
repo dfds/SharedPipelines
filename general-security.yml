@@ -12,6 +12,9 @@ parameters:
 - name: targetPort
   type: number
   default: 80
+- name: containerEnviromentVariables
+  type: string
+  default: ''
 
 steps:
 #- template: owasp-zap/create-xml-to-xslt-file.yml@SharedPipelines
@@ -21,6 +24,7 @@ steps:
     fullImageUri: '${{ parameters.fullImageUri }}'
     containerPort: '${{ parameters.containerPort }}'
     targetPort: '${{ parameters.targetPort }}'
+    containerEnviromentVariables: '${{ parameters.containerEnviromentVariables }}'
 
 - template: security-iac-scan.yml@SharedPipelines
   parameters:
