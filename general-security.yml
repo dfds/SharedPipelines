@@ -13,8 +13,8 @@ parameters:
   type: number
   default: 80
 - name: containerEnviromentVariables
-  type: string
-  default: ''
+  type: object
+  default: []
 
 steps:
 #- template: owasp-zap/create-xml-to-xslt-file.yml@SharedPipelines
