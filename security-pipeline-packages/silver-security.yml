@@ -33,6 +33,7 @@ steps:
 - template: security-container-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
+    severity: "CRITICAL"
 
 - template: security-secret-scan.yml@SharedPipelines
   parameters:
