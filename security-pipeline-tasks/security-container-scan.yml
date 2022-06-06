@@ -1,13 +1,32 @@
 parameters:
 - name: fullImageUri
   type: string
+- name: severity
+  type: string
+  default: ""
+- name: ignore-unfixed
+  type: boolean 
+  default: false
   
 steps:
 - script: |
     mkdir $(Agent.TempDirectory)/trivy -m 777
-    docker pull aquasec/trivy:latest
-    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image -f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}"
-    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
+
+    cmd="docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image "
+    if [ "${{ parameters.severity }}" != "" ]
+    then
+        cmd+="--severity "${{ parameters.severity }}" "
+    fi
+
+    if [ "${{ parameters.ignore-unfixed }}" ]
+    then
+        cmd+="--ignore-unfixed "
+    fi
+
+    cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}""
+
+    eval $cmd
+    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif || true
   displayName: 'Scan image'
   continueOnError: false
 
