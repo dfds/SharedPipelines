@@ -38,6 +38,7 @@ steps:
 - template: security-secret-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
+    failTask: true
     
 - template: security-dependancy-scan.yml@SharedPipelines
   parameters:
