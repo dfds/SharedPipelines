@@ -6,7 +6,7 @@ parameters:
   type: number
   default: 0
 - name: warnOnCVSSViolation
-  type: booliean
+  type: boolean
   default: false
 
 steps:
