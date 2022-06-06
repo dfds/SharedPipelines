@@ -6,7 +6,7 @@ parameters:
   default: ""
 - name: ignore-unfixed
   type: boolean 
-  default: false
+  default: true
   
 steps:
 - script: |
