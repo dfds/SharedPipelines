@@ -9,7 +9,7 @@ steps:
     mkdir $(Agent.TempDirectory)/semgrep -m 777
     docker run --rm -v "${{ parameters.sourceDirectory }}:/src" returntocorp/semgrep ci --config=auto --output=scan_results.sarif --sarif || true
     sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif
-  displayName: Run TF-Sec
+  displayName: Run SAST Scan
   continueOnError: false
 
 - task: CopyFiles@2
