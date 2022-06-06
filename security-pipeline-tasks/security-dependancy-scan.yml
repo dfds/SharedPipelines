@@ -2,14 +2,24 @@ parameters:
 - name: sourceDirectory
   type: string
   default: '$(Build.SourcesDirectory)'
+- name: failOnCVSS
+  type: number
+  default: 0
+- name: warnOnCVSSViolation
+  type: booliean
+  default: false
 
 steps:
-- task: OWASPDependencyCheck@0
+- task: dependency-check.dependencycheck.dependency-check-build-task.dependency-check-build-task@6
+  displayName: 'Dependency Check'
   inputs:
-    outputDirectory: "$(Agent.TempDirectory)/dependency-scan-results"
-    scanDirectory: "${{ parameters.sourceDirectory }}"
-    outputFormat: 'ALL'
-    useSonarQubeIntegration: false
+    projectName: adsasd
+    scanPath: "${{ parameters.sourceDirectory }}"
+    reportsDirectory: "$(Agent.TempDirectory)/dependency-scan-results"
+    reportFilename: dependency-scan-results
+    warnOnCVSSViolation: "${{ parameters.warnOnCVSSViolation }}"
+	  failOnCVSS: "${{ parameters.failOnCVSS }}"
+	  format: ALL
 
 - task: CopyFiles@2
   inputs:
