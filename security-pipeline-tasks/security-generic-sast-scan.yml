@@ -6,11 +6,14 @@ parameters:
 steps:
 - script: |
     mkdir $(Agent.TempDirectory)/semgrep -m 777
-    docker run --rm -v "${{ parameters.sourceDirectory }}:/src" returntocorp/semgrep semgrep ci --config=auto --output=semgrep-scan.sarif --sarif || true
-    sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif || true
+    docker run --rm -v "${{ parameters.sourceDirectory }}:/src" returntocorp/semgrep semgrep ci --config=auto --output=semgrep-scan.sarif --sarif 
   displayName: Run SAST Scan
   continueOnError: true
   condition: succeededOrFailed()
+
+-script: |
+    sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif
+  displayName: Modify File
 
 - task: CopyFiles@2
   inputs:
