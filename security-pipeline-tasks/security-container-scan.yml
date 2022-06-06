@@ -4,7 +4,7 @@ parameters:
 - name: severity
   type: string
   default: ""
-- name: ignore-unfixed
+- name: ignoreUnfixed
   type: boolean 
   default: true
   
@@ -18,7 +18,7 @@ steps:
         cmd+="--severity "${{ parameters.severity }}" "
     fi
 
-    if [ "${{ parameters.ignore-unfixed }}" ]
+    if [ "${{ parameters.ignoreUnfixed }}" ]
     then
         cmd+="--ignore-unfixed "
     fi
