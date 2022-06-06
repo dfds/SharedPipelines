@@ -17,8 +17,6 @@ parameters:
   default: ''
 
 steps:
-#- template: owasp-zap/create-xml-to-xslt-file.yml@SharedPipelines
-
 - template: security-dast-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
