@@ -24,28 +24,28 @@ steps:
     targetPort: '${{ parameters.targetPort }}'
     containerEnviromentVariables: '${{ parameters.containerEnviromentVariables }}'
 
-- template: ~/security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
 
-- template: security-pipeline-tasks/security-container-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-container-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
 
-- template: security-pipeline-tasks/security-secret-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-secret-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
     failTask: false
     
-- template: security-pipeline-tasks/security-dependancy-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-dependancy-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
     warnOnCVSSViolation: true
 
-- template: security-pipeline-tasks/security-generic-sast-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-generic-sast-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'   
 
-- template: security-pipeline-tasks/secuirty-publish-artifacts.yml@SharedPipelines
+- template: ../security-pipeline-tasks/secuirty-publish-artifacts.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
