@@ -17,14 +17,14 @@ parameters:
   default: ''
 
 steps:
-- template: security-pipeline-tasks/security-dast-scan.yml@SharedPipelines
+- template: ~/security-pipeline-tasks/security-dast-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
     containerPort: '${{ parameters.containerPort }}'
     targetPort: '${{ parameters.targetPort }}'
     containerEnviromentVariables: '${{ parameters.containerEnviromentVariables }}'
 
-- template: security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
+- template: ~/security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
 
