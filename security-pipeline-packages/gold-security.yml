@@ -17,36 +17,36 @@ parameters:
   default: ''
 
 steps:
-- template: security-dast-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-dast-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
     containerPort: '${{ parameters.containerPort }}'
     targetPort: '${{ parameters.targetPort }}'
     containerEnviromentVariables: '${{ parameters.containerEnviromentVariables }}'
 
-- template: security-iac-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
 
-- template: security-container-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-container-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
     severity: "CRITICAL,HIGH"
 
-- template: security-secret-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-secret-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
     failTask: true
     
-- template: security-dependancy-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-dependancy-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
     failOnCVSS: 7
 
-- template: security-generic-sast-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-generic-sast-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'   
 
-- template: secuirty-publish-artifacts.yml@SharedPipelines
+- template: ../security-pipeline-tasks/secuirty-publish-artifacts.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
