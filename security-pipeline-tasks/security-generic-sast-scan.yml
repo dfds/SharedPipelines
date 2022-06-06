@@ -10,6 +10,7 @@ steps:
     sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif || true
   displayName: Run SAST Scan
   continueOnError: false
+  condition: succeededOrFailed()
 
 - task: CopyFiles@2
   inputs:
