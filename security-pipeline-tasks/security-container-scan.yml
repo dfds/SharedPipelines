@@ -26,9 +26,12 @@ steps:
     cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}""
 
     eval $cmd
-    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif || true
   displayName: 'Scan image'
   continueOnError: false
+  condition: succeededOrFailed()
+
+- script: | sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
+  displayName: Update File
 
 - task: CopyFiles@2
   inputs:
