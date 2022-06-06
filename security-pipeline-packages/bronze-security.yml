@@ -17,7 +17,7 @@ parameters:
   default: ''
 
 steps:
-- template: ~/security-pipeline-tasks/security-dast-scan.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-dast-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
     containerPort: '${{ parameters.containerPort }}'
