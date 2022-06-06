@@ -42,9 +42,9 @@ steps:
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
 
-- template: security-dotnet-sast-scan.yml@SharedPipelines
+- template: security-generic-sast-scan.yml@SharedPipelines
   parameters:
-    projectSlnDirectory: '${{ parameters.projectSlnDirectory }}'   
+    sourceDirectory: '${{ parameters.sourceDirectory }}'   
 
 - template: secuirty-publish-artifacts.yml@SharedPipelines
   parameters:
