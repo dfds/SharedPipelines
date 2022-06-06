@@ -18,7 +18,7 @@ steps:
     reportsDirectory: "$(Agent.TempDirectory)/dependency-scan-results"
     reportFilename: dependency-scan-results
     warnOnCVSSViolation: "${{ parameters.warnOnCVSSViolation }}"
-	  failOnCVSS: "${{ parameters.failOnCVSS }}"
+	  failOnCVSS: ${{ parameters.failOnCVSS }}
 	  format: ALL
 
 - task: CopyFiles@2
