@@ -41,6 +41,7 @@ steps:
 - template: security-dependancy-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
+    warnOnCVSSViolation: true
 
 - template: security-generic-sast-scan.yml@SharedPipelines
   parameters:
