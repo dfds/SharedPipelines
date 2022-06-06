@@ -4,7 +4,6 @@ parameters:
   default: $(Build.SourcesDirectory)
 
 steps:
-- script: echo "building $(Build.BuildNumber) with '${{ parameters.sourceDirectory }}'"
 - script: |
     mkdir $(Agent.TempDirectory)/semgrep -m 777
     docker run --rm -v "${{ parameters.sourceDirectory }}:/src" returntocorp/semgrep semgrep ci --config=auto --output=semgrep-scan.sarif --sarif || true
