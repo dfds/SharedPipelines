@@ -11,7 +11,7 @@ steps:
   continueOnError: true
   condition: succeededOrFailed()
 
--script: |
+- script: |
     sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif
   displayName: Modify File
 
