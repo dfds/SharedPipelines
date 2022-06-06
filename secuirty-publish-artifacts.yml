@@ -11,3 +11,4 @@ steps:
   inputs:
     testResultsFormat: 'NUnit'
     testResultsFiles: '$(Agent.TempDirectory)/TEST-*.xml'
+    publishRunAttachments: false
