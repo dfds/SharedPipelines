@@ -5,3 +5,9 @@ steps:
     PathtoPublish: "$(Agent.TempDirectory)/sast-results"
     ArtifactName: "CodeAnalysisLogs"
     publishLocation: "Container"
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  inputs:
+    testResultsFormat: 'NUnit'
+    testResultsFiles: '$(Agent.TempDirectory)/TEST-*.xml'
