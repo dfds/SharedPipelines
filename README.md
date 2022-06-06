@@ -15,10 +15,10 @@ TODO
 Trivy
 
 For instance, if after reading about a particular issue and deciding I can safely ignore it, I add the following line into .trivyignore:
-`code`
+``
 # a libc vulnerability in the base image, currently unfixed
 CVE-2021-33574
-`code`
+``
 
 #Project requirements
 TODO
