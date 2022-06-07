@@ -19,7 +19,7 @@ steps:
   condition: succeededOrFailed()
 
 - script: | 
-    sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif || true
+    sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif
   displayName: Modify File
   continueOnError: true
   condition: succeededOrFailed()
