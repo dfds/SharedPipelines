@@ -15,8 +15,10 @@ steps:
     fail="${{ parameters.failBuildOnFindings}}"
     if ! [ $fail ]; then
       exit 0
+    else
+      exit $exitCode
     fi
-    exit $exitCode
+    
   displayName: Run TF-Sec
   condition: succeededOrFailed()
 
