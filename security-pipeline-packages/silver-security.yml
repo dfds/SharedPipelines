@@ -27,6 +27,7 @@ steps:
 - template: ../security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
+    failBuildOnFindings: true
 
 - template: ../security-pipeline-tasks/security-container-scan.yml@SharedPipelines
   parameters:
