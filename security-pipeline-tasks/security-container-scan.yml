@@ -11,6 +11,14 @@ parameters:
 steps:
 - script: |
     mkdir $(Agent.TempDirectory)/trivy -m 777
+    docker pull aquasec/trivy:latest
+    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image -f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}"
+    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
+  displayName: 'Scan image 1'
+  continueOnError: false
+
+- script: |
+    mkdir $(Agent.TempDirectory)/trivy -m 777
 
     docker pull aquasec/trivy:lastest
     
@@ -28,7 +36,7 @@ steps:
     cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}" "
     echo "$(cmd)"
     eval cmd
-  displayName: 'Scan image'
+  displayName: 'Scan image 2'
   condition: succeededOrFailed()
 
 - script: | 
