@@ -12,7 +12,7 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/trivy -m 777
     docker pull aquasec/trivy:latest
-    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image -f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}"
+    docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image -f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}"
     sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
   displayName: 'Scan image 1'
   continueOnError: false
