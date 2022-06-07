@@ -22,7 +22,11 @@ steps:
     exitCode=$?
     echo "${{ parameters.passiveMode}}"
     if [[ "${{ parameters.passiveMode}}" == "True" ]]; then
-      exit 0
+      if [ $exitCode == 1 ]; then
+        echo "##vso[task.complete result=SucceededWithIssues;]"
+      else
+        exit 0
+      fi
     else
       exit $exitCode
     fi
