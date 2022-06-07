@@ -18,9 +18,14 @@ steps:
     SourceFolder: '$(Agent.TempDirectory)/tfsec'
     contents: "*.sarif" 
     targetFolder: $(Agent.TempDirectory)/sast-results/tfsec/
+  continueOnError: true
+  condition: succeededOrFailed()
+
 
 - task: DeleteFiles@1
   displayName: 'Remove unneeded files'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
-    contents: "$(Agent.TempDirectory)/tfsec/*.sarif" 
+    contents: "$(Agent.TempDirectory)/tfsec/*.sarif"
+  continueOnError: true
+  condition: succeededOrFailed()
