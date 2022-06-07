@@ -10,18 +10,18 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     cmd="docker run --rm -v "${{ parameters.sourceDirectory }}:/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src "
-    eval $cmd
-    exitCode=$?
-    if [[ "${{ parameters.passiveMode}}" == "true" ]]; then
-      exit 0
-    else
-      exit $exitCode
-    fi
-
+    
     if [[ "${{ parameters.ignoreUnfixed}}" == "true" ]]; then
         cmd+="--ignore-unfixed "
     fi
     
+    eval $cmd
+    exitCode=$?
+     if [[ "${{ parameters.passiveMode}}" == "true" ]]; then
+      exit 0
+    else
+      exit $exitCode
+    fi
   displayName: Run TF-Sec
   condition: succeededOrFailed()
 
