@@ -13,7 +13,7 @@ steps:
 - task: dependency-check.dependencycheck.dependency-check-build-task.dependency-check-build-task@6
   displayName: 'Dependency Check'
   inputs:
-    projectName: adsasd
+    projectName: Scann
     scanPath: "${{ parameters.sourceDirectory }}"
     reportsDirectory: "$(Agent.TempDirectory)/dependency-scan-results"
     reportFilename: dependency-scan-results
