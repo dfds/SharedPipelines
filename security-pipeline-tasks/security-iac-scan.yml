@@ -12,10 +12,8 @@ steps:
     cmd="docker run --rm -v "${{ parameters.sourceDirectory }}:/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src "
     if [ "${{ parameters.failBuildOnFindings }}" = false ]
     then
-        cmd+="|| true "
+      cmd+="|| true "
     fi
-
-    echo "$cmd"
     eval $cmd
   displayName: Run TF-Sec
   condition: succeededOrFailed()
