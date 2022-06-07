@@ -2,6 +2,9 @@ parameters:
 - name: sourceDirectory
   type: string
   default: $(Build.SourcesDirectory)
+- name: passiveMode
+  type: boolean
+  default: false
 
 steps:
 - script: |
@@ -9,10 +12,14 @@ steps:
     docker run --rm -v "${{ parameters.sourceDirectory }}:/src" returntocorp/semgrep semgrep ci --config=auto --output=semgrep-scan.sarif --sarif 
     exitCode=$?
     
-    if [ $exitCode == 1 ]; then
-      echo "##vso[task.complete result=SucceededWithIssues;]"
+    if [[ "${{ parameters.passiveMode}}" == "True" ]]; then
+      if [ $exitCode == 1 ]; then
+        echo "##vso[task.complete result=SucceededWithIssues;]"
+      else
+        exit 0
+      fi
     else
-      exit "$exitCode"
+      exit $exitCode
     fi
   displayName: Run SAST Scan
   condition: succeededOrFailed()
@@ -22,7 +29,6 @@ steps:
   displayName: Modify File
   continueOnError: true
   condition: succeededOrFailed()
-
 
 - task: CopyFiles@2
   inputs:
