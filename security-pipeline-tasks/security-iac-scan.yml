@@ -7,9 +7,14 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     docker pull aquasec/tfsec:latest
-    docker run --rm -v "${{ parameters.sourceDirectory }}:/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --sort-severity --format="sarif" --out="/report/tfsec-scan.sarif" /src
-    sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif || true
+    docker run --rm -v "${{ parameters.sourceDirectory }}:/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src
   displayName: Run TF-Sec
+  continueOnError: true
+  condition: succeededOrFailed()
+
+- script: | 
+    sudo chmod 755 $(Agent.TempDirectory)/tfsec/tfsec-scan.sarif || true
+  displayName: Modify File
   continueOnError: true
   condition: succeededOrFailed()
 
