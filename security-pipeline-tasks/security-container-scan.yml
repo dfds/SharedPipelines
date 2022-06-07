@@ -10,23 +10,26 @@ parameters:
   
 steps:
 - script: |
-    mkdir $(Agent.TempDirectory)/trivy -m 777
-    
-    cmd="docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image "
-    if [[ "${{ parameters.ignoreUnfixed}}" == "True" ]]; then
-        cmd+="--ignore-unfixed "
-    fi
+    if [[ "${{ parameters.fullImageUri}}" != "" ]]; then
+        cmd2+="zap-full-scan.py "
+      mkdir $(Agent.TempDirectory)/trivy -m 777
+      
+      cmd="docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image "
+      if [[ "${{ parameters.ignoreUnfixed}}" == "True" ]]; then
+          cmd+="--ignore-unfixed "
+      fi
 
-    cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}" "
-    eval $cmd
-    exitCode=$?
-    if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "${{ parameters.failOnCVSS }}") | ."security-severity"' | wc -l ) -gt 1 ] ; then
-      exit 1
-    fi
-    if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "0") | ."security-severity"' | wc -l ) -gt 1 ] ; then
-      echo "##vso[task.complete result=SucceededWithIssues;]"
-    else
-      exit $exitCode
+      cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}" "
+      eval $cmd
+      exitCode=$?
+      if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "${{ parameters.failOnCVSS }}") | ."security-severity"' | wc -l ) -gt 1 ] ; then
+        exit 1
+      fi
+      if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "0") | ."security-severity"' | wc -l ) -gt 1 ] ; then
+        echo "##vso[task.complete result=SucceededWithIssues;]"
+      else
+        exit $exitCode
+      fi
     fi
   displayName: 'Scan image'
   condition: succeededOrFailed()
