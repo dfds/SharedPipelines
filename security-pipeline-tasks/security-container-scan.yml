@@ -20,11 +20,11 @@ steps:
 
     cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}" "
     eval $cmd
-
+    exitCode=$?
     if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "${{ parameters.failOnCVSS }}") | ."security-severity"' | wc -l ) -gt 1 ] ; then
       exit 1
     fi
-    exit 0
+    exit $exitCode
   displayName: 'Scan image'
   condition: succeededOrFailed()
 
