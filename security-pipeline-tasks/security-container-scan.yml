@@ -27,7 +27,6 @@ steps:
     echo cmd
     eval $cmd
   displayName: 'Scan image'
-  continueOnError: true
   condition: succeededOrFailed()
 
 - script: | 
