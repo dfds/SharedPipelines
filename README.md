@@ -26,13 +26,15 @@ For instance, if after reading about a particular issue and deciding I can safel
 ```
 
 #Project requirements
-TODO
+SamGrep Supported Language - (https://semgrep.dev/docs/language-support/)https://semgrep.dev/docs/language-support/
+tfsec - Terraform
+SCA Supported Language - (https://jeremylong.github.io/DependencyCheck/analyzers/index.html)https://jeremylong.github.io/DependencyCheck/analyzers/index.html
 
 #Scanners used
 DAST         - OWASP Zap
 SCA          - OWASP Dependancy Check
 SAST         - Semgrep
-IAC          - TF-Sec
+IAC          - Tfsec
 Secrets Scan - GitLeaks
 
 #How to use
