@@ -7,6 +7,13 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/semgrep -m 777
     docker run --rm -v "${{ parameters.sourceDirectory }}:/src" returntocorp/semgrep semgrep ci --config=auto --output=semgrep-scan.sarif --sarif 
+    exitCode=$?
+    
+    if [ $exitCode == 1 ]; then
+      echo "##vso[task.complete result=SucceededWithIssues;]"
+    else
+      exit "$exitCode"
+    fi
   displayName: Run SAST Scan
   condition: succeededOrFailed()
 
