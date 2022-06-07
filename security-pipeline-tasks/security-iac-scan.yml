@@ -20,7 +20,7 @@ steps:
     
     eval $cmd
     exitCode=$?
-     if [[ "${{ parameters.passiveMode}}" == "true" ]]; then
+    if [[ "${{ parameters.passiveMode}}" == "true" ]]; then
       exit 0
     else
       exit $exitCode
