@@ -28,8 +28,8 @@ steps:
     then
         cmd+="--severity "${{ parameters.severity }}" "
     fi
-
-    if [ "${{ parameters.ignoreUnfixed }}" == "true" ]
+    
+    if [ "${{ parameters.ignoreUnfixed}}" ]
     then
         cmd+="--ignore-unfixed "
     fi
