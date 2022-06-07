@@ -8,7 +8,6 @@ steps:
     mkdir $(Agent.TempDirectory)/semgrep -m 777
     docker run --rm -v "${{ parameters.sourceDirectory }}:/src" returntocorp/semgrep semgrep ci --config=auto --output=semgrep-scan.sarif --sarif 
   displayName: Run SAST Scan
-  continueOnError: true
   condition: succeededOrFailed()
 
 - script: |
