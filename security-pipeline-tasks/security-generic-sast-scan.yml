@@ -11,7 +11,7 @@ steps:
   condition: succeededOrFailed()
 
 - script: |
-    sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif
+    sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif || true
   displayName: Modify File
   continueOnError: true
   condition: succeededOrFailed()
