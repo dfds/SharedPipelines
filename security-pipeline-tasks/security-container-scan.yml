@@ -14,7 +14,6 @@ steps:
     
     cmd="docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image "
     if [[ "${{ parameters.ignoreUnfixed}}" == "true" ]]; then
-    then
         cmd+="--ignore-unfixed "
     fi
 
