@@ -27,21 +27,23 @@ steps:
 
     eval $cmd
   displayName: 'Scan image'
-  continueOnError: false
   condition: succeededOrFailed()
 
 - script: | 
-    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
+    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif || true
   displayName: Update File
+  condition: succeededOrFailed()
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Agent.TempDirectory)/trivy'
     contents: "*.sarif" 
     targetFolder: $(Agent.TempDirectory)/sast-results/trivy/
+  condition: succeededOrFailed()
 
 - task: DeleteFiles@1
   displayName: 'Remove unneeded files'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     contents: "$(Agent.TempDirectory)/trivy/*.sarif"
+  condition: succeededOrFailed()
