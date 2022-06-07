@@ -13,8 +13,9 @@ steps:
    
     if ! ["${{ parameters.failBuildOnFindings}}" ]
     then
-        cmd+="|| true"
+      cmd+="|| true"
     fi
+    eval $cmd
   displayName: Run TF-Sec
   condition: succeededOrFailed()
 
