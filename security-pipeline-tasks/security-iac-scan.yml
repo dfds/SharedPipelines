@@ -20,7 +20,6 @@ steps:
     
     eval $cmd
     exitCode=$?
-    echo "${{ parameters.passiveMode}}"
     if [[ "${{ parameters.passiveMode}}" == "True" ]]; then
       if [ $exitCode == 1 ]; then
         echo "##vso[task.complete result=SucceededWithIssues;]"
