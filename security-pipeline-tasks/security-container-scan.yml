@@ -23,7 +23,7 @@ steps:
         cmd+="--ignore-unfixed "
     fi
 
-    cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}""
+    cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}" "
 
     eval $cmd
   displayName: 'Scan image'
