@@ -2,13 +2,17 @@
 Please note security pipelines in this repo is currenlty in Alpha and should not be used in production
 
 #Bronze security package
-The bronze security package is used for passive scanning only, this package is the first steps to getting oserabilty on how secure your system is.
+The bronze security package is used for passive scanning only, this package is the first steps to getting observability on how secure your system is.
 
 #Silver security package
-The silver security package is used to start to block critial vunerbilities for entering your applications, it will also block any infrasture of code misconfigurations if found.
+The silver security package is used to start to block critial vulnerabilities for entering your applications, it will also block any infrasture of code misconfigurations if found.
 
 #Gold security package
-The silver security package is used to start to block all of silver including high vunerbilities frrm entering your applications.
+The Gold security package is used to start to block all of silver including high vulnerabilities from entering your applications.
+
+#Platinum security package
+The Platinum security package is used to start to block all of Gold including Medium vulnerabilities from entering your applications.
+
 
 #Marking false positives
 TODO
