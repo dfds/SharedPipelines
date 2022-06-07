@@ -28,10 +28,15 @@ steps:
     SourceFolder: '$(Agent.TempDirectory)/dependency-scan-results'
     contents: "*.sarif" 
     targetFolder: $(Agent.TempDirectory)/sast-results/dependency-scan-results/
+  continueOnError: true
+  condition: succeededOrFailed()
+
   
 
 - task: DeleteFiles@1
   displayName: 'Remove unneeded files'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
-    contents: "$(Agent.TempDirectory)/*.sarif" 
+    contents: "$(Agent.TempDirectory)/*.sarif"
+  continueOnError: true
+  condition: succeededOrFailed()
