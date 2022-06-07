@@ -5,6 +5,9 @@ parameters:
 - name: passiveMode
   type: boolean
   default: false
+- name: ignoreUnfixed
+  type: boolean
+  default: false
 
 steps:
 - script: |
