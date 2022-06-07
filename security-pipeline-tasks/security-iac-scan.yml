@@ -2,9 +2,9 @@ parameters:
 - name: sourceDirectory
   type: string
   default: $(Build.SourcesDirectory)
-- name: failBuildOnFindings
+- name: passiveMode
   type: boolean
-  default: true
+  default: false
 
 steps:
 - script: |
@@ -12,11 +12,14 @@ steps:
     cmd="docker run --rm -v "${{ parameters.sourceDirectory }}:/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src "
     eval $cmd
     exitCode=$?
-    fail="${{ parameters.failBuildOnFindings}}"
-    if ! [ $fail ]; then
+    if [[ "${{ parameters.passiveMode}}" == "true" ]]; then
       exit 0
     else
       exit $exitCode
+    fi
+
+    if [[ "${{ parameters.ignoreUnfixed}}" == "true" ]]; then
+        cmd+="--ignore-unfixed "
     fi
     
   displayName: Run TF-Sec
