@@ -8,5 +8,4 @@ steps:
     dotnet tool install --global security-scan
     security-scan "${{ parameters.projectSlnDirectory }}" --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
   displayName: 'Install and run SAST scan'
-  continueOnError: true
   condition: succeededOrFailed()
