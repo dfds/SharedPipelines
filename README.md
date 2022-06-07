@@ -15,7 +15,6 @@ The Platinum security package is used to start to block all of Gold including Me
 
 
 #Marking false positives
-TODO
 
 ##Trivy
 
@@ -29,13 +28,15 @@ For instance, if after reading about a particular issue and deciding I can safel
 SamGrep Supported Language - (https://semgrep.dev/docs/language-support/)https://semgrep.dev/docs/language-support/
 tfsec - Terraform
 SCA Supported Language - (https://jeremylong.github.io/DependencyCheck/analyzers/index.html)https://jeremylong.github.io/DependencyCheck/analyzers/index.html
+Trivy - https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/
 
 #Scanners used
-DAST         - OWASP Zap
-SCA          - OWASP Dependancy Check
-SAST         - Semgrep
-IAC          - Tfsec
-Secrets Scan - GitLeaks
+DAST             - OWASP Zap
+SCA              - OWASP Dependancy Check
+SAST             - Semgrep
+IAC              - Tfsec
+Secrets Scan     - GitLeaks
+Docker File Scan - Trivy
 
 #How to use
 
