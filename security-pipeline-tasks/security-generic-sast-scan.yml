@@ -12,17 +12,25 @@ steps:
   condition: succeededOrFailed()
 
 - script: |
-    sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif
+    sudo chmod 755 $(Agent.TempDirectory)/semgrep/semgrep-scan.sarif || true
   displayName: Modify File
+  continueOnError: true
+  condition: succeededOrFailed()
+
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Agent.TempDirectory)/semgrep'
     contents: "*.sarif" 
     targetFolder: $(Agent.TempDirectory)/sast-results/semgrep/
+  continueOnError: true
+  condition: succeededOrFailed()
+
 
 - task: DeleteFiles@1
   displayName: 'Remove unneeded files'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
-    contents: "$(Agent.TempDirectory)/semgrep/*.sarif" 
+    contents: "$(Agent.TempDirectory)/semgrep/*.sarif"
+  continueOnError: true
+  condition: succeededOrFailed()
