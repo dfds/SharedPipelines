@@ -14,13 +14,13 @@ steps:
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     cmd="docker run --rm -v "${{ parameters.sourceDirectory }}:/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src "
     
-    if [[ "${{ parameters.ignoreUnfixed}}" == "true" ]]; then
+    if [[ "${{ parameters.ignoreUnfixed}}" == "True" ]]; then
         cmd+="--ignore-unfixed "
     fi
     
     eval $cmd
     exitCode=$?
-    if [[ "${{ parameters.passiveMode}}" == "true" ]]; then
+    if [[ "${{ parameters.passiveMode}}" == "True" ]]; then
       exit 0
     else
       exit $exitCode
