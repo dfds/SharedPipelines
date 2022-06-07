@@ -25,9 +25,9 @@ steps:
     fi
     if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "0") | ."security-severity"' | wc -l ) -gt 1 ] ; then
       echo "##vso[task.complete result=SucceededWithIssues;]"
+    else
+      exit $exitCode
     fi
-    
-    exit $exitCode
   displayName: 'Scan image'
   condition: succeededOrFailed()
 
