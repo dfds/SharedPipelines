@@ -21,8 +21,7 @@ steps:
     cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}" "
     eval $cmd
 
-    if [ cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "${{ parameters.failOnCVSS }}" | ."security-severity"' | wc -l > 0 ]
-    then
+    if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "${{ parameters.failOnCVSS }}") | ."security-severity"' | wc -l ) -ge 1 ] ; then
       exit 1
     fi
     exit 0
