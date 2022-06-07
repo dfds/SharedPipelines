@@ -12,6 +12,8 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/trivy -m 777
 
+    docker pull aquasec/trivy:lastest
+    
     cmd="docker run --rm -v "$(Agent.TempDirectory)/trivy:/report" aquasec/trivy:latest image "
     if [ "${{ parameters.severity }}" != "" ]
     then
