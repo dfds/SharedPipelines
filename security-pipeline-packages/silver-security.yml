@@ -23,6 +23,7 @@ steps:
     containerPort: '${{ parameters.containerPort }}'
     targetPort: '${{ parameters.targetPort }}'
     containerEnviromentVariables: '${{ parameters.containerEnviromentVariables }}'
+    fullScan: true
 
 - template: ../security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
   parameters:
