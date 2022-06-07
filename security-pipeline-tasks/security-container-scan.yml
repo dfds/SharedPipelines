@@ -16,6 +16,7 @@ steps:
     sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
   displayName: 'Scan image 1'
   continueOnError: false
+  condition: succeededOrFailed()
 
 - script: |
     mkdir $(Agent.TempDirectory)/trivy -m 777
