@@ -31,7 +31,7 @@ steps:
 - template: ../security-pipeline-tasks/security-container-scan.yml@SharedPipelines
   parameters:
     fullImageUri: '${{ parameters.fullImageUri }}'
-    severity: "CRITICAL,HIGH"
+    failOnCVSS: 7
 
 - template: ../security-pipeline-tasks/security-secret-scan.yml@SharedPipelines
   parameters:
