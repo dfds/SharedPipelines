@@ -31,8 +31,6 @@ steps:
   continueOnError: true
   condition: succeededOrFailed()
 
-  
-
 - task: DeleteFiles@1
   displayName: 'Remove unneeded files'
   inputs:
