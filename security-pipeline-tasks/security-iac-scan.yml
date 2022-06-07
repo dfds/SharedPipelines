@@ -10,7 +10,7 @@ steps:
 - script: |
     mkdir $(Agent.TempDirectory)/tfsec -m 777
     cmd="docker run --rm -v "${{ parameters.sourceDirectory }}:/src" -v "$(Agent.TempDirectory)/tfsec:/report"  aquasec/tfsec:latest --format="sarif" --out="/report/tfsec-scan.sarif" /src "
-    if [ "${{ parameters.failBuildOnFindings }}" == "false" ]
+    if ! [ "${{ parameters.failBuildOnFindings}}" ]
     then
       cmd+="|| true "
     fi
