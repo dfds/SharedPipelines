@@ -11,7 +11,7 @@ parameters:
 
 steps:
 - task: dependency-check.dependencycheck.dependency-check-build-task.dependency-check-build-task@6
-  displayName: 'Dependency Check'
+  displayName: 'Run Dependency Check'
   inputs:
     projectName: Scann
     scanPath: "${{ parameters.sourceDirectory }}"
