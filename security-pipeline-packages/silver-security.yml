@@ -46,7 +46,8 @@ steps:
 
 - template: ../security-pipeline-tasks/security-generic-sast-scan.yml@SharedPipelines
   parameters:
-    sourceDirectory: '${{ parameters.sourceDirectory }}'   
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
+    passiveMode: false   
 
 - template: ../security-pipeline-tasks/secuirty-publish-artifacts.yml@SharedPipelines
   parameters:
