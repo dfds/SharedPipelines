@@ -29,16 +29,44 @@ For instance, if after reading about a particular issue and deciding I can safel
 TODO
 
 #Scanners used
-TODO
+DAST         - OWASP Zap
+SCA          - OWASP Dependancy Check
+SAST         - Semgrep
+IAC          - TF-Sec
+Secrets Scan - GitLeaks
 
 #How to use
-TODO
+
+```yml
+    
+pool:
+  vmImage: 'ubuntu-latest'
+  
+resources:
+  repositories:
+    - repository: SharedPipelines
+      type: git
+      name: CloudEngineering/SharedPipelines
+
+stages:
+- stage: Scan
+  jobs:
+  - job:
+    steps:
+    - template: 'security-pipeline-packages/gold-security.yml@SharedPipelines'
+      parameters:
+        sourceDirectory: $(Build.SourcesDirectory) #Source directory containing your code [optional this will detail to $(Build.SourcesDirectory)]
+        fullImageUri: <aws_account>.dkr.ecr.<region>.amazonaws.com/<imageName>:<tag> #Full image url [optional for container scan]
+        containerPort: 8080 #Container Port [optional for container scan]
+        targetPort: 8080 #Container target [optional for container scan]
+        containerEnviromentVariables: $(containerEnvVars) #Container Enviroment Variables [optional for container scan]
+```
 
 #Known issues
-Todo
+None at the moment
 
 #Getting help
-TODO
+Contact Cloud Engineering.
 
 #Getting involved
-TODO
+Please feel free to add a issue or raise a pull request.
