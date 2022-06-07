@@ -23,6 +23,10 @@ steps:
     if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "${{ parameters.failOnCVSS }}") | ."security-severity"' | wc -l ) -gt 1 ] ; then
       exit 1
     fi
+    if [ $(cat $(Agent.TempDirectory)/trivy/trivy.sarif | jq '.runs[].tool.driver.rules[].properties | select(."security-severity" >= "0") | ."security-severity"' | wc -l ) -gt 1 ] ; then
+      echo "##vso[task.complete result=SucceededWithIssues;]"
+    fi
+    
     exit $exitCode
   displayName: 'Scan image'
   condition: succeededOrFailed()
