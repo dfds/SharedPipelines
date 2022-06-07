@@ -32,8 +32,9 @@ steps:
   condition: succeededOrFailed()
 
 - script: | 
-    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif || true
+    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
   displayName: Update File
+  continueOnError: true
   condition: succeededOrFailed()
 
 - task: CopyFiles@2
