@@ -1,0 +1,52 @@
+parameters:
+- name: sourceDirectory
+  type: string
+  default: $(Build.SourcesDirectory)
+- name: fullImageUri
+  type: string
+- name: projectSlnDirectory
+  type: string
+- name: containerPort
+  type: number
+  default: 8080
+- name: targetPort
+  type: number
+  default: 80
+- name: containerEnviromentVariables
+  type: string
+  default: ''
+
+steps:
+- template: ../security-pipeline-tasks/security-dast-scan.yml@SharedPipelines
+  parameters:
+    fullImageUri: '${{ parameters.fullImageUri }}'
+    containerPort: '${{ parameters.containerPort }}'
+    targetPort: '${{ parameters.targetPort }}'
+    containerEnviromentVariables: '${{ parameters.containerEnviromentVariables }}'
+
+- template: ../security-pipeline-tasks/security-iac-scan.yml@SharedPipelines
+  parameters:
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
+
+- template: ../security-pipeline-tasks/security-container-scan.yml@SharedPipelines
+  parameters:
+    fullImageUri: '${{ parameters.fullImageUri }}'
+    failOnCVSS: 4
+
+- template: ../security-pipeline-tasks/security-secret-scan.yml@SharedPipelines
+  parameters:
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
+    failTask: true
+    
+- template: ../security-pipeline-tasks/security-dependancy-scan.yml@SharedPipelines
+  parameters:
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
+    failOnCVSS: 4
+
+- template: ../security-pipeline-tasks/security-generic-sast-scan.yml@SharedPipelines
+  parameters:
+    sourceDirectory: '${{ parameters.sourceDirectory }}'   
+
+- template: ../security-pipeline-tasks/secuirty-publish-artifacts.yml@SharedPipelines
+  parameters:
+    sourceDirectory: '${{ parameters.sourceDirectory }}'
