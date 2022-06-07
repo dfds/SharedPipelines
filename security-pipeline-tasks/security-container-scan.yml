@@ -35,7 +35,7 @@ steps:
     fi
 
     cmd+="-f sarif -o /report/trivy.sarif "${{ parameters.fullImageUri }}" "
-    eval cmd
+    eval $cmd
   displayName: 'Scan image 2'
   condition: succeededOrFailed()
 
