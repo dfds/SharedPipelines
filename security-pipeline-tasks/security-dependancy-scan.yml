@@ -20,7 +20,6 @@ steps:
     warnOnCVSSViolation: ${{ parameters.warnOnCVSSViolation }}
     failOnCVSS: ${{ parameters.failOnCVSS }}
     format: "ALL"
-  continueOnError: true
   condition: succeededOrFailed()
 
 - task: CopyFiles@2
