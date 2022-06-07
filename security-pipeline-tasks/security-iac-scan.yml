@@ -16,7 +16,6 @@ steps:
         cmd+="|| true"
     fi
   displayName: Run TF-Sec
-  continueOnError: true
   condition: succeededOrFailed()
 
 - script: | 
