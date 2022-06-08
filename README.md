@@ -1,44 +1,45 @@
-# Introduction 
+#Shared Pipelines
+Repository for shared Pipelines.
+
+##Security Packages
+
+### Introduction 
 Please note security pipelines in this repo is currenlty in Alpha and should not be used in production
 
-#Bronze security package
+###Bronze security package
 The bronze security package is used for passive scanning only, this package is the first steps to getting observability on how secure your system is.
 
-#Silver security package
+###Silver security package
 The silver security package is used to start to block critial vulnerabilities for entering your applications, it will also block any infrasture of code misconfigurations if found.
 
-#Gold security package
+###Gold security package
 The Gold security package is used to start to block all of silver including high vulnerabilities from entering your applications.
 
-#Platinum security package
+###Platinum security package
 The Platinum security package is used to start to block all of Gold including Medium vulnerabilities from entering your applications.
 
+###Marking false positives
+SamGrep - [https://semgrep.dev/docs/ignoring-files-folders-code/#reference-summary](https://semgrep.dev/docs/ignoring-files-folders-code/#reference-summary)
+Tfsec - [https://aquasecurity.github.io/tfsec/v0.61.3/getting-started/configuration/ignores/](https://aquasecurity.github.io/tfsec/v0.61.3/getting-started/configuration/ignores/)
+Trivy - [https://aquasecurity.github.io/trivy/v0.19.1/vulnerability/examples/filter/](https://aquasecurity.github.io/trivy/v0.19.1/vulnerability/examples/filter/)
+Dependency Check - [https://jeremylong.github.io/DependencyCheck/general/suppression.html](https://jeremylong.github.io/DependencyCheck/general/suppression.html)
 
-#Marking false positives
-
-##Trivy
-
-For instance, if after reading about a particular issue and deciding I can safely ignore it, I add the following line into .trivyignore:
-```yml
-    # a libc vulnerability in the base image, currently unfixed
-    CVE-2021-33574
-```
-
-#Project requirements
-SamGrep Supported Language - (https://semgrep.dev/docs/language-support/)https://semgrep.dev/docs/language-support/
+###Project requirements
+SamGrep Supported Language - [https://semgrep.dev/docs/language-support/](https://semgrep.dev/docs/language-support/)
 tfsec - Terraform
-SCA Supported Language - (https://jeremylong.github.io/DependencyCheck/analyzers/index.html)https://jeremylong.github.io/DependencyCheck/analyzers/index.html
-Trivy - https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/
+SCA Supported Language - [https://jeremylong.github.io/DependencyCheck/analyzers/index.html](https://jeremylong.github.io/DependencyCheck/analyzers/index.html)
+Trivy - [https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/](https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/)
+Dependancy Check - [https://jeremylong.github.io/DependencyCheck/analyzers/index.html](https://jeremylong.github.io/DependencyCheck/analyzers/index.html)
 
-#Scanners used
+###Scanners used
 DAST             - OWASP Zap
-SCA              - OWASP Dependancy Check
+SCA              - Dependancy Check
 SAST             - Semgrep
 IAC              - Tfsec
 Secrets Scan     - GitLeaks
 Docker File Scan - Trivy
 
-#How to use
+###How to use
 
 ```yml
     
@@ -65,11 +66,11 @@ stages:
         containerEnviromentVariables: $(containerEnvVars) #Container Enviroment Variables [optional for container scan]
 ```
 
-#Known issues
+###Known issues
 None at the moment
 
-#Getting help
+##Getting help
 Contact Cloud Engineering.
 
-#Getting involved
+##Getting involved
 Please feel free to add a issue or raise a pull request.
