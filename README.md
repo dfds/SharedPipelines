@@ -19,25 +19,25 @@ The Gold security package is used to start to block all of silver including high
 The Platinum security package is used to start to block all of Gold including Medium vulnerabilities from entering your applications.
 
 ###Marking false positives
-SamGrep - [https://semgrep.dev/docs/ignoring-files-folders-code/#reference-summary](https://semgrep.dev/docs/ignoring-files-folders-code/#reference-summary)
-Tfsec - [https://aquasecurity.github.io/tfsec/v0.61.3/getting-started/configuration/ignores/](https://aquasecurity.github.io/tfsec/v0.61.3/getting-started/configuration/ignores/)
-Trivy - [https://aquasecurity.github.io/trivy/v0.19.1/vulnerability/examples/filter/](https://aquasecurity.github.io/trivy/v0.19.1/vulnerability/examples/filter/)
-Dependency Check - [https://jeremylong.github.io/DependencyCheck/general/suppression.html](https://jeremylong.github.io/DependencyCheck/general/suppression.html)
+- SamGrep - [https://semgrep.dev/docs/ignoring-files-folders-code/#reference-summary](https://semgrep.dev/docs/ignoring-files-folders-code/#reference-summary)
+- Tfsec - [https://aquasecurity.github.io/tfsec/v0.61.3/getting-started/configuration/ignores/](https://aquasecurity.github.io/tfsec/v0.61.3/getting-started/configuration/ignores/)
+- Trivy - [https://aquasecurity.github.io/trivy/v0.19.1/vulnerability/examples/filter/](https://aquasecurity.github.io/trivy/v0.19.1/vulnerability/examples/filter/)
+- Dependency Check - [https://jeremylong.github.io/DependencyCheck/general/suppression.html](https://jeremylong.github.io/DependencyCheck/general/suppression.html)
 
 ###Project requirements
-SamGrep Supported Language - [https://semgrep.dev/docs/language-support/](https://semgrep.dev/docs/language-support/)
-tfsec - Terraform
-SCA Supported Language - [https://jeremylong.github.io/DependencyCheck/analyzers/index.html](https://jeremylong.github.io/DependencyCheck/analyzers/index.html)
-Trivy - [https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/](https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/)
-Dependancy Check - [https://jeremylong.github.io/DependencyCheck/analyzers/index.html](https://jeremylong.github.io/DependencyCheck/analyzers/index.html)
+- SamGrep Supported Language - [https://semgrep.dev/docs/language-support/](https://semgrep.dev/docs/language-support/)
+- tfsec - Terraform
+- SCA Supported Language - [https://jeremylong.github.io/DependencyCheck/analyzers/index.html](https://jeremylong.github.io/DependencyCheck/analyzers/index.html)
+- Trivy - [https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/](https://aquasecurity.github.io/trivy/v0.20.1/vulnerability/detection/language/)
+- Dependancy Check - [https://jeremylong.github.io/DependencyCheck/analyzers/index.html](https://jeremylong.github.io/DependencyCheck/analyzers/index.html)
 
 ###Scanners used
-DAST             - OWASP Zap
-SCA              - Dependancy Check
-SAST             - Semgrep
-IAC              - Tfsec
-Secrets Scan     - GitLeaks
-Docker File Scan - Trivy
+- DAST             - OWASP Zap
+- SCA              - Dependancy Check
+- SAST             - Semgrep
+- IAC              - Tfsec
+- Secrets Scan     - GitLeaks
+- Docker File Scan - Trivy
 
 ###How to use
 
