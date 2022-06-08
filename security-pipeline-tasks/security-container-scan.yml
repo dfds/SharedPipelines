@@ -30,12 +30,18 @@ steps:
       else
         exit $exitCode
       fi
+    else
+      echo "fullImageUri was not provided, Skipping"
     fi
   displayName: 'Scan Docker Image'
   condition: succeededOrFailed()
 
 - script: | 
-    sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
+    if [[ "${{ parameters.fullImageUri}}" != "" ]]; then
+      sudo chmod 755 $(Agent.TempDirectory)/trivy/trivy.sarif
+    else
+      echo "fullImageUri was not provided, Skipping"
+    fi
   displayName: Update File
   continueOnError: true
   condition: succeededOrFailed()
