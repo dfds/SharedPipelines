@@ -6,6 +6,9 @@ Repository for shared Pipelines.
 ### Introduction 
 Please note security pipelines in this repo is currenlty in Alpha and should not be used in production
 
+###Current Version 
+Version : v1.0.0
+
 ###Bronze security package
 The bronze security package is used for passive scanning only, this package is the first steps to getting observability on how secure your system is.
 
