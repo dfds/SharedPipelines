@@ -49,6 +49,6 @@ steps:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
     passiveMode: false
 
-- template: ../security-pipeline-tasks/secuirty-publish-artifacts.yml@SharedPipelines
+- template: ../security-pipeline-tasks/security-publish-artifacts.yml@SharedPipelines
   parameters:
     sourceDirectory: '${{ parameters.sourceDirectory }}'
