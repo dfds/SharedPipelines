@@ -4,8 +4,12 @@ parameters:
 
 steps:
 - script: |
-    mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
-    dotnet tool install --global security-scan
-    security-scan "${{ parameters.projectSlnDirectory }}" --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
+    if [[ "${{ parameters.projectSlnDirectory}}" != "" ]]; then
+      mkdir $(Agent.TempDirectory)/sast-results/SCS -m 777
+      dotnet tool install --global security-scan
+      security-scan "${{ parameters.projectSlnDirectory }}" --excl-proj=**/*Test*/** --cwe --export=$(Agent.TempDirectory)/sast-results/SCS/sast-results.sarif    
+    else
+      echo "projectSlnDirectory was not provided, Skipping"
+    fi
   displayName: 'Install and run SAST scan'
   condition: succeededOrFailed()

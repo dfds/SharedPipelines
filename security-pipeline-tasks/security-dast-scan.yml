@@ -1,0 +1,68 @@
+parameters:
+- name: fullImageUri
+  type: string
+- name: containerPort
+  type: number
+  default: 8080
+- name: targetPort
+  type: number
+  default: 80
+- name: containerEnviromentVariables
+  type: string
+  default: ''
+- name: fullScan
+  type: boolean
+  default: true
+
+steps:
+- bash: |
+    if [[ "${{ parameters.fullImageUri}}" != "" ]]; then
+      curl -L https://raw.githubusercontent.com/dfds/xml_to_nunit/main/xml_to_nunit.xslt -o $(Agent.TempDirectory)/xml_to_nunit.xslt
+      envVars="${{ parameters.containerEnviromentVariables }}"
+      cmd="docker run -d -t --name app -p "${{ parameters.containerPort }}":"${{ parameters.targetPort }}" " 
+      for i in ${envVars//,/ };     do     cmd+="-e $i ";     done 
+      cmd+="${{ parameters.fullImageUri }}"
+      eval $cmd
+      chmod -R 777 $(Agent.TempDirectory)
+
+      cmd2="docker run --rm -v $(Agent.TempDirectory):/zap/wrk/:rw owasp/zap2docker-stable "
+      
+      if [[ "${{ parameters.fullScan}}" == "True" ]]; then
+          cmd2+="zap-full-scan.py "
+      else
+          cmd2+="zap-baseline.py "
+      fi
+
+      cmd2+="-t http://$(ip -f inet -o addr show eth0 | awk '{print $4}' | cut -d '/' -f 1):"${{ parameters.containerPort }}" -g gen.conf -x xml_report.xml"
+      
+      eval $cmd2
+      exitCode=$?
+
+      echo "exitCode will be $exitCode"
+
+      if [ $exitCode == 2 ]; then
+        echo "##vso[task.complete result=SucceededWithIssues;]"
+      else
+        exit "$exitCode"
+      fi
+    else
+      echo "fullImageUri was not provided, Skipping"
+    fi
+    
+  displayName: 'Run Dynamic Application Security Container Scan'
+  condition: succeededOrFailed()
+
+- powershell: |
+    if [[ "${{ parameters.fullImageUri}}" != "" ]]; then
+      $XslPath = "$(Agent.TempDirectory)/xml_to_nunit.xslt" 
+      $XmlInputPath = "$(Agent.TempDirectory)/xml_report.xml"
+      $XmlOutputPath = "$(Agent.TempDirectory)/TEST-dast-report.xml"
+      $XslTransform = New-Object System.Xml.Xsl.XslCompiledTransform
+      $XslTransform.Load($XslPath)
+      $XslTransform.Transform($XmlInputPath, $XmlOutputPath)
+    else
+      echo "fullImageUri was not provided, Skipping"
+    fi
+  displayName: 'Report Transform'
+  continueOnError: true
+  condition: succeededOrFailed()
