@@ -1,0 +1,61 @@
+parameters:
+- name: sourceDirectory
+  type: string
+  default: $(Build.SourcesDirectory)
+- name: snykImageName
+  type: string
+  default: snyk/snyk:linux
+- name: snykToken
+  type: string
+- name: severityThreshold
+  type: string
+  default: low
+- name: passiveMode
+  type: boolean
+  default: false
+
+steps:
+- script: |
+    if [[ -z "${{ parameters.snykToken }}" ]]; then
+      echo "SNYK_AUTH_TOKEN not set"
+      exit 0
+    fi
+
+    mkdir $(Agent.TempDirectory)/snyk -m 777
+    docker run --rm -it -e SNYK_TOKEN=$SNYK_TOKEN -v "${{ parameters.sourceDirectory }}:/app" "${{ parameters.snykImageName }}" 'snyk test --all-projects --json-file-output=snyk-sca-scan.json --sarif-file-output=snyk-sca-scan.sarif --severity-threshold="${{ parameters.severityThreshold }}"'
+    exitCode=$?
+    
+    if [[ "${{ parameters.passiveMode}}" == "True" ]]; then
+      if [ $exitCode == 1 ]; then
+        echo "##vso[task.complete result=SucceededWithIssues;]"
+      else
+        exit 0
+      fi
+    else
+      exit $exitCode
+    fi
+  displayName: Run Static Application Security Testing
+  condition: succeededOrFailed()
+
+- script: |
+    sudo chmod 755 $(Agent.TempDirectory)/snyk/snyk-sca-scan.sarif || true
+  displayName: Modify File
+  continueOnError: true
+  condition: succeededOrFailed()
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)/snyk'
+    contents: "*.sarif" 
+    targetFolder: $(Agent.TempDirectory)/sast-results/snyk/
+  continueOnError: true
+  condition: succeededOrFailed()
+
+
+- task: DeleteFiles@1
+  displayName: 'Remove unneeded files'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    contents: "$(Agent.TempDirectory)/snyk/*.sarif"
+  continueOnError: true
+  condition: succeededOrFailed()
